@@ -55,9 +55,28 @@ bigPapa$Gender <- ifelse(bigPapa$Gender != 1, ifelse(bigPapa$Gender != 0, NA, bi
 print(bigPapa$Gender)
 
 #VolunteerLevel cleanup
+print(bigPapa$VolunteerLevel)
+#this all looks good
 
+#post cleaning
+#take a look
+head(bigPapa)
+vis_miss(bigPapa)
+glimpse(bigPapa)
+summary(bigPapa)
+vis_dat(bigPapa)
 
+#drop NAs and reset index
+bigPapaClean <- na.omit(bigPapa)
+row.names(bigPapaClean) <- NULL
 
+#post dropping NAs
+#take a look
+head(bigPapaClean)
+vis_miss(bigPapaClean)
+glimpse(bigPapaClean)
+summary(bigPapaClean)
+vis_dat(bigPapaClean)
 
-
-
+#final writeout
+write.csv(bigPapaClean, "cleanedAdmissions.csv")
