@@ -1,7 +1,7 @@
 ---
-title: "Presentation Title"
+title: "College Admission Analysis"
 subtitle: "DSAN 5900"
-author: "enter your name here"
+author: "Naomi Yamaguchi, Irene, Karan "
 date: last-modified
 format:
   html:
@@ -16,6 +16,8 @@ format:
 
 ## Introduction
 
+In order to introduce our goal, we wanted to take a look at what type of students were applying to the unspecified college. Our Data obtained consisted of 89 total applicants of which included observations on their "Decision", "GPA", "Work Experience", "Test Score", "Writing Score", "Gender", "Volunteer Experience". The summary of the data below shows the interquartile ranges for each specified column. Approximate 11 student were omitted from the final data set due to the unrefined nature of the data.
+
 ```{r}
 library(naniar)
 library(visdat)
@@ -26,11 +28,11 @@ library(ggplot2)
 library(tidyverse)
 
 df_clean <- read.csv("cleanedAdmissions.csv")
+df <- data.frame(df_clean)
+summary(df)
 ```
 
-
-
-## Viz 1
+## Vizualization 1
 
 ```{r}
 ggplot(df_clean, aes(x = GPA)) +
@@ -38,9 +40,9 @@ ggplot(df_clean, aes(x = GPA)) +
   labs(title = "Histogram of GPA Scores", x = "GPA", y = "Frequency") +
   theme_minimal() 
 ```
+As seen above, the GPA distribution for the following admission pool is right skewed from the mean set at 3.49 showing the class's competitive GPA pool given that no student was admitted below a GPA of 3.5.
 
-
-## Viz 2
+## Vizualization 2
 
 ```{r}
 ggplot(df_clean, aes(x = WorkExp, y = GPA, color = Decision)) +
@@ -54,10 +56,9 @@ ggplot(df_clean, aes(x = WorkExp, y = GPA, color = Decision)) +
         legend.box.background = element_rect(color = "black"))
 
 ```
+Given the following Data of admitted students, there is no clear cut off with respect to their work experience. The GPA of an applicant seems to be more prioritized within the admission process.
 
-
-
-## Viz 3
+## Vizualization 3
 
 ```{r}
 ggplot(df_clean, aes(x = State, y = WritingScore, fill = State)) +
@@ -68,12 +69,25 @@ ggplot(df_clean, aes(x = State, y = WritingScore, fill = State)) +
 
 ```
 
+As seen above, the literacy outlook on applicants from each state vary in a small quantitative manner. Most states exhibit a writing score range between 74 and 78 with little variance.
 
+## Vizualization 4
 
+```{r}
+ggplot(df_clean, aes(x = State, y = VolunteerLevel, fill = State)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average Volunteer Level by State", x = "State", y = "Average Volunteer Expierence") +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+We can see on Average an applicant from the state of Oregon and Virginia exhibit a higher level of volunteer expirence compared to applicants from other states.
 
 ## Conclusion
 
+Given the following Data of admitted students, we can superficially say that the admission criterion was quite competitive. There is a clear cut off with respect to their Test Scores, as Only 1 student was accepted below the threshold of 950. Consequently, if we take a look at students performing GPA we can see that a GPA of 3.5 was set as the cutoff for admission standards. Besides GPA, the writing scores, Work experience and Volunteer experience were really negligible in determining if a student was to be admitted or wait listed as there was no clear relationship. 
 
+Finally, Florida observed the most students apply observing about 44% of the total applicant pool. It is also interesting to note the minimal discrepancy in writing scores across each applicants state as there was little variance while the volunteer experience was on average higher for an applicant from Oregon and Virginia.
 
 
 
