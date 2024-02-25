@@ -14,23 +14,68 @@ format:
     embed-resources: true
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Introduction
 
 ```{r}
-1 + 1
+library(naniar)
+library(visdat)
+library(reticulate)
+library(plotly)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+
+df_clean <- read.csv("cleanedAdmissions.csv")
 ```
 
-You can add options to executable code like this
+
+
+## Viz 1
 
 ```{r}
-#| echo: false
-2 * 2
+ggplot(df_clean, aes(x = GPA)) +
+  geom_histogram(binwidth = 0.1, fill = "skyblue", color = "darkgray") +
+  labs(title = "Histogram of GPA Scores", x = "GPA", y = "Frequency") +
+  theme_minimal() 
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+
+## Viz 2
+
+```{r}
+ggplot(df_clean, aes(x = WorkExp, y = GPA, color = Decision)) +
+  geom_point(shape = 4, alpha = 0.6) +
+  scale_color_manual(values = c("Admit" = "green", "Decline" = "red", "Waitlist" = "orange")) +
+  labs(title = "Scatter Plot of Work Experience vs. GPA",
+       x = "Work Experience (Years)", y = "GPA") +
+  theme_minimal(base_size = 13.5) +
+  theme(legend.background = element_rect(fill = "mintcream", size = 0.5, linetype = "solid"),
+        legend.key = element_blank(),
+        legend.box.background = element_rect(color = "black"))
+
+```
+
+
+
+## Viz 3
+
+```{r}
+ggplot(df_clean, aes(x = State, y = WritingScore, fill = State)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  labs(title = "Average Writing Score by State", x = "State", y = "Average Writing Score") +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+
+
+## Conclusion
+
+
+
+
+
+
+
