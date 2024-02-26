@@ -36,10 +36,15 @@ summary(df)
 
 ```{r}
 ggplot(df_clean, aes(x = GPA)) +
-  geom_histogram(binwidth = 0.1, fill = "skyblue", color = "darkgray") +
+  geom_histogram(binwidth = 0.1, fill = "#A288A6", color = "darkgray") +
   labs(title = "Histogram of GPA Scores", x = "GPA", y = "Frequency") +
-  theme_minimal() 
+  theme_minimal()  +   
+  theme(legend.background = element_rect(fill = "white", size = 0.5, linetype = "solid"),
+        legend.key = element_blank(),
+        legend.box.background = element_rect(color = "#1C1D21"),
+        plot.background = element_rect(fill = "white"))
 ```
+
 As seen above, the GPA distribution for the following admission pool is right skewed from the mean set at 3.49 showing the class's competitive GPA pool given that no student was admitted below a GPA of 3.5.
 
 ## Vizualization 2
@@ -47,15 +52,17 @@ As seen above, the GPA distribution for the following admission pool is right sk
 ```{r}
 ggplot(df_clean, aes(x = WorkExp, y = GPA, color = Decision)) +
   geom_point(shape = 4, alpha = 0.6) +
-  scale_color_manual(values = c("Admit" = "green", "Decline" = "red", "Waitlist" = "orange")) +
+  scale_color_manual(values = c("Admit" = "#6DB1BF", "Decline" = "#F6AE2D", "Waitlist" = "#A288A6")) +
   labs(title = "Scatter Plot of Work Experience vs. GPA",
        x = "Work Experience (Years)", y = "GPA") +
   theme_minimal(base_size = 13.5) +
-  theme(legend.background = element_rect(fill = "mintcream", size = 0.5, linetype = "solid"),
+  theme(legend.background = element_rect(fill = "white", size = 0.5, linetype = "solid"),
         legend.key = element_blank(),
-        legend.box.background = element_rect(color = "black"))
+        legend.box.background = element_rect(color = "#1C1D21"),
+        plot.background = element_rect(fill = "white"))
 
 ```
+
 Given the following Data of admitted students, there is no clear cut off with respect to their work experience. The GPA of an applicant seems to be more prioritized within the admission process.
 
 ## Vizualization 3
