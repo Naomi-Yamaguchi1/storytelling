@@ -5,13 +5,16 @@ format:
   revealjs:
     embed-resources: true
     theme: [default, custom.scss]
+  html: 
+    link-external-newwindow: true
 ---
 
 ## Introduction
 
+- [Link to full-length report](http://irtait.georgetown.domains/pages/presentation.html)
 - Our goal was to better understand the applicants we are accepting and rejecting in order to paint a picture of what our admissions process values (and what it does not!)
 - As we go through this presentation, we'd like you to reflect on whether or not this data confirms or upsets your preconceived notion of the traditional applicant to this university.
-- Fundamental question: ***are we valuing the right qualities in our applicants?***
+- ***Are we valuing the right qualities in our applicants?***
 
 ## Data Overview
 
@@ -137,6 +140,7 @@ High volunteer levels did not correspond with admission
 - Our admissions process places a high value on test score and GPA, considering academic in performance in high school as a major factor
 - Essay score, work experience, and volunteer level were not considered as important
 - While we should take pride in our rigorous academic standards, we must ensure that we are not over reliant on test scores, as they are not good measures of qualities like leadership, tenacity, or kindness
+- [Link to full-length report](http://irtait.georgetown.domains/pages/presentation.html)
 
 ## Thank you!
 
