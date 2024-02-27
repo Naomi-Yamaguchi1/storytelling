@@ -1,7 +1,7 @@
 ---
 title: "College Admission Analysis"
-subtitle: "DSAN 5900"
-author: "Naomi Yamaguchi, Irene, Karan "
+subtitle: "DSAN 5900 - Digital Storytelling"
+author: "Naomi Yamaguchi, Karan Uppal, and Irene Tait"
 date: last-modified
 format:
   html:
@@ -12,13 +12,28 @@ format:
     code-overflow: wrap
     self-contained: true
     embed-resources: true
+    toc: true
 ---
 
 ## Introduction
 
-In order to introduce our goal, we wanted to take a look at what type of students were applying to the unspecified college. Our Data obtained consisted of 89 total applicants of which included observations on their "Decision", "GPA", "Work Experience", "Test Score", "Writing Score", "Gender", "Volunteer Experience". The summary of the data below shows the interquartile ranges for each specified column. Approximate 11 student were omitted from the final data set due to the unrefined nature of the data.
+In this project, our overarching goal was to gather a deeper understanding of what type of students were applying to our college. Our data consisted of 89 total applicants of which included observations on their admittance decision, GPA (grade point average), years of work experience, relevant standardized testing score, a writing score of their admission essay, gender, and a rating of the meaningfulness of their volunteer experience. The summary of the data below shows the interquartile ranges for quantitative variables.
 
-```{r}
+|                 | Min |  1st Quartile | Mean | 3rd Quartile | Max |
+|-----------------|-----|---------------|------|--------------|-----|
+|   GPA           | 2.34 | 3.393 | 3.492 | 3.7 | 3.930 |
+| Work Experience (0-10) | 0 | 1.2 | 2.178 | 2.7 | 9.2 |
+| Test Score | 751 | 769 | 867.6 | 965 | 969 |
+| Writing Score (0-100) | 56 | 77 | 83.55 | 92.5 | 100 |
+| Volunteer Level (0-5) | 0 | 1 | 2.462 | 4 | 5 |
+
+Approximately 11 students (representing 12.4% of applicants) were omitted from the analytical data set due to errors or missing values in some element of their record.
+
+Throughout this report, as a stakeholder in this organization and a person with significant input on admissions related programming, we'd like you to reflect on whether or not this data confirms or upsets your preconceived notion of the traditional applicant to this university.
+
+## GPA and Admittance Decision Analysis
+
+```{r message = FALSE}
 library(naniar)
 library(visdat)
 library(reticulate)
@@ -27,76 +42,143 @@ library(dplyr)
 library(ggplot2)
 library(tidyverse)
 
+workingTheme <- theme_minimal() +
+  theme(
+    legend.background = element_rect(
+      fill = "white", linewidth = 0.5, linetype = "solid"),
+    legend.key = element_blank(),
+    legend.box.background = element_rect(color = "#1C1D21"),
+    plot.background = element_rect(fill = "white"),
+    panel.grid.major = element_line(color = "#F1E3E4"),
+    panel.grid.minor = element_line(color = "#F1E3E4")
+  )
+
+theme_set(workingTheme)
+cols <- c()
+
 df_clean <- read.csv("cleanedAdmissions.csv")
 df <- data.frame(df_clean)
-summary(df)
+
 ```
 
-## Vizualization 1
-
-```{r}
-ggplot(df_clean, aes(x = GPA)) +
-  geom_histogram(binwidth = 0.1, fill = "#A288A6", color = "darkgray") +
+```{r message = FALSE}
+ggplot(data = df_clean, aes(x = GPA, fill = Decision)) +
+  geom_histogram(binwidth = 0.1, color = "#F1E3E4") +
   labs(title = "Histogram of GPA Scores", x = "GPA", y = "Frequency") +
-  theme_minimal()  +   
-  theme(legend.background = element_rect(fill = "white", size = 0.5, linetype = "solid"),
-        legend.key = element_blank(),
-        legend.box.background = element_rect(color = "#1C1D21"),
-        plot.background = element_rect(fill = "white"))
+  scale_fill_manual(values = c("Admit" = "#6DB1BF", "Decline" = "#F6AE2D", "Waitlist" = "#A288A6"))
+
+
+
 ```
 
-As seen above, the GPA distribution for the following admission pool is right skewed from the mean set at 3.49 showing the class's competitive GPA pool given that no student was admitted below a GPA of 3.5.
-
-## Vizualization 2
+As seen above, the GPA distribution for the following admission pool is right skewed from the mean set at 3.49 showing the class's competitive GPA pool given that no student was admitted with a GPA of below 3.5. We can also clearly see some overall trends here, in that students with above 3.5 tended to be accepted but with some exceptions, students with GPAs around 3.5 tended to be waitlisted, and applicants with below a 3.25 were rejected.
 
 ```{r}
 ggplot(df_clean, aes(x = WorkExp, y = GPA, color = Decision)) +
-  geom_point(shape = 4, alpha = 0.6) +
+  geom_point(size = 3) +
   scale_color_manual(values = c("Admit" = "#6DB1BF", "Decline" = "#F6AE2D", "Waitlist" = "#A288A6")) +
   labs(title = "Scatter Plot of Work Experience vs. GPA",
        x = "Work Experience (Years)", y = "GPA") +
-  theme_minimal(base_size = 13.5) +
-  theme(legend.background = element_rect(fill = "white", size = 0.5, linetype = "solid"),
-        legend.key = element_blank(),
-        legend.box.background = element_rect(color = "#1C1D21"),
-        plot.background = element_rect(fill = "white"))
+  theme_minimal(base_size = 13.5)
+
+
 
 ```
 
-Given the following Data of admitted students, there is no clear cut off with respect to their work experience. The GPA of an applicant seems to be more prioritized within the admission process.
+Given the following Data of admitted students, there is no clear cut off with respect to their work experience. The GPA of an applicant seems to be more prioritized within the admission process, suggesting that we do not prioritize work experience as a major factor in admissions decisions.
 
-## Vizualization 3
+```{r}
+
+ggplot(df_clean, aes(x = TestScore, y = GPA, color = Decision)) +
+  geom_point(size = 3) +
+  scale_color_manual(values = c("Admit" = "#6DB1BF", "Decline" = "#F6AE2D", "Waitlist" = "#A288A6")) +
+  labs(title = "Scatter Plot of Test Score vs. GPA",
+       x = "Test Score", y = "GPA") +
+  theme_minimal(base_size = 13.5)
+
+
+```
+
+However, when we look at the relationship between test score and GPA, a very clear pattern emerges, with significant clustering occurring. With only a single exception, none of our admitted students this year score below a 950 on the standardized test, and all had GPAs of at or above 3.5. We do see some declined students with high GPAs and test scores who did not make the waitlist, so there may have been some other factor at work in those three decisions, such as a poorer essay score.
+
+## State Comparison
+
+Switching gears, let's look at the overall distribution of applicants from each state, as well as their admittance decisions.
+
+```{r}
+
+ggplot(
+  data = df_clean,
+  aes(x = State, fill = State)
+)+
+  geom_bar(color = "#F1E3E4",position = 'dodge')+
+  labs(
+    title = 'Applicants by State',
+    x = 'State',
+    y = 'Number of Applicants'
+  )+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+ggplot(
+  data = df_clean,
+  aes(x = State, fill = Decision)
+)+
+  geom_bar(color = "#F1E3E4",position = position_dodge2(preserve = 'single'))+
+  labs(
+    title = 'Applicants by State and Admittance Decision',
+    x = 'State',
+    y = 'Number of Applicants'
+  )+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("Admit" = "#6DB1BF", "Decline" = "#F6AE2D", "Waitlist" = "#A288A6"))
+
+
+```
+
+The majority of our applicants come from California, Colorado, and Florida, with Florida clearly being the dominant source of applicants. We do also see a smaller number from Utah and Virginia, with a very small amount from Alabama, Mississipi, New York, Oregon, and Vermont.
+
+When considering admittance decision, it becomes clear that the while students from Florida make up the largest single group of applicants, we accept an astonishingly higher percentage of applicants from California by contrast. Overall, we only accepted applicants from four states total: Florida, California, Colorado, and Utah.
 
 ```{r}
 ggplot(df_clean, aes(x = State, y = WritingScore, fill = State)) +
   geom_bar(stat = "summary", fun = "mean") +
   labs(title = "Average Writing Score by State", x = "State", y = "Average Writing Score") +
-  theme_minimal() + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
 As seen above, the literacy outlook on applicants from each state vary in a small quantitative manner. Most states exhibit a writing score range between 74 and 78 with little variance.
 
-## Vizualization 4
+```{r}
+ggplot(df_clean, aes(x = State, y = WritingScore, fill = Decision)) +
+  geom_bar(stat = "summary", fun = "mean", position = position_dodge2(preserve = 'single')) +
+  labs(title = "Average Writing Score by State and Admittance Status", x = "State", y = "Average Writing Score") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values = c("Admit" = "#6DB1BF", "Decline" = "#F6AE2D", "Waitlist" = "#A288A6"))
+
+
+
+```
+
+However, when you add in admission decision as a factor, a state-based admission factor does emerge. It becomes clear from this graph that in applicants from California, Colorado, and Florida, our accepted students demonstrated higher average scores than their peers, with the exception of students for Utah, who had a lower average score on their admissions essay. This suggests that for the few students we did not accept from our big three state applicant pools, there was some other factor at play 
 
 ```{r}
 ggplot(df_clean, aes(x = State, y = VolunteerLevel, fill = State)) +
   geom_bar(stat = "summary", fun = "mean") +
-  labs(title = "Average Volunteer Level by State", x = "State", y = "Average Volunteer Expierence") +
-  theme_minimal() + 
+  labs(title = "Average Volunteer Level by State", x = "State", y = "Average Volunteer Experience") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-We can see on Average an applicant from the state of Oregon and Virginia exhibit a higher level of volunteer expirence compared to applicants from other states.
+
+We can see on Average an applicant from the state of Oregon and Virginia exhibit a higher level of volunteer experience compared to applicants from other states. However, we accepted no students from either of these states, instead taking students only from states with an average volunteer experience of around 2.5, exactly middle of the road. This suggests that while volunteer experience may be considered in an admissions context, or perhaps simply correlated with individuals who can achieve high test scores, it is not prioritized. 
 
 ## Conclusion
 
-Given the following Data of admitted students, we can superficially say that the admission criterion was quite competitive. There is a clear cut off with respect to their Test Scores, as Only 1 student was accepted below the threshold of 950. Consequently, if we take a look at students performing GPA we can see that a GPA of 3.5 was set as the cutoff for admission standards. Besides GPA, the writing scores, Work experience and Volunteer experience were really negligible in determining if a student was to be admitted or wait listed as there was no clear relationship. 
+Given the following Data of admitted students, we can superficially say that the admission criterion was quite competitive. There is a clear cut off with respect to their test scores, as only 1 student was accepted below the threshold of 950. Consequently, if we take a look at students performing GPA we can see that a GPA of 3.5 was set as the cutoff for admission standards. Besides GPA, the writing score was a lesser factor in admissions decisions, but with some oddities that make defining the relationship difficult. Work experience and volunteer experience were negligible in determining if a student was to be admitted, declned, or wait listed as there was no clear relationship. Finally, Florida was the most common source of applicants, making up about 44% of the total applicant pool, but we accepted a much higher percentage of applicants from California in comparison.
 
-Finally, Florida observed the most students apply observing about 44% of the total applicant pool. It is also interesting to note the minimal discrepancy in writing scores across each applicants state as there was little variance while the volunteer experience was on average higher for an applicant from Oregon and Virginia.
-
-
+Now that we have broken down each aspect of the admissions decisions, we hope you will reflect now on whether or not this confirmed or upset your image of a typical student at our institution. Our admissions process is academically rigorous, taking only those with extremely academic performance as measured in standardized test scores and performance in high school classes. However, without being paired with data considering matriculation and graduation rates, it is hard to say whether or not placing the focus on academic achievement in a high school context translates to success in a collegiate one. We as an admissions department also do not place a particularly high importance on work experience or volunteer experience, both categories which can highlight exceptional individuals with leadership qualities who will do great things in their future careers. While we should take pride in our high standards of academic excellence, it is important that we reflect on whether or not it means we are discarding potentially bright students who could excel in our program given a bit more opportunity and support.
 
 
 

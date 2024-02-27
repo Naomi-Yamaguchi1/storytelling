@@ -1,0 +1,13 @@
+/*-- scss:defaults --*/
+
+$body-bg: #f7f1f1;
+$body-color: #1C1D21;
+$link-color: #6DB1BF;
+$border-width: 0.5px;
+
+/*-- scss:rules --*/
+
+.reveal .slide blockquote {
+  border-left: 3px solid $text-muted;
+  padding-left: 0.5em;
+}

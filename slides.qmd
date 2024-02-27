@@ -1,0 +1,144 @@
+---
+title: "College Admission Analysis"
+author: "Naomi Yamaguchi, Karan Uppal, and Irene Tait"
+format: 
+  revealjs:
+    embed-resources: true
+    theme: [default, custom.scss]
+---
+
+## Introduction
+
+- Our goal was to better understand the applicants we are accepting and rejecting in order to paint a picture of what our admissions process values (and what it does not!)
+- As we go through this presentation, we'd like you to reflect on whether or not this data confirms or upsets your preconceived notion of the traditional applicant to this university.
+- Fundamental question: ***are we valuing the right qualities in our applicants?***
+
+## Data Overview
+
+- 89 applicants from 10 states
+- 11 records discarded from analysis due to record error or missing values (12% of data)
+
+![](table.png)
+
+## GPA Distribution
+
+:::: {.columns}
+
+::: {.column width="75%"}
+![](first.jpeg)
+:::
+
+::: {.column width="25%"}
+- Applicants skewed towards higher GPA
+- Clear trend regarding decision, with some fuzziness
+:::
+
+::::
+
+
+
+## GPA vs Work Experience
+
+:::: {.columns}
+
+::: {.column width="80%"}
+![](second.jpeg)
+:::
+
+::: {.column width="20%"}
+- Majority of applicants with little to no work experience
+- No clear clustering or trend
+:::
+
+::::
+
+
+
+## GPA vs Test Scores
+
+:::: {.columns}
+
+::: {.column width="80%"}
+![](third.jpeg)
+:::
+
+::: {.column width="20%"}
+- Clear clustering of all admitted students, with 1 exception
+- Some minor outliers
+:::
+
+::::
+
+## State by State
+
+:::: {.columns}
+
+::: {.column width="20%"}
+Majority of applicants from Florida
+
+Some from Colorado, California, Utah, and Virginia
+:::
+
+::: {.column width="80%"}
+![](fourth.jpeg)
+:::
+
+::::
+
+## Admittance by State
+
+:::: {.columns}
+
+::: {.column width="20%"}
+Students accepted from only four states: California, Colorado, Florida, and Utah
+
+:::
+
+::: {.column width="80%"}
+![](fifth.jpeg)
+:::
+
+::::
+
+## Writing Scores by State
+
+:::: {.columns}
+
+::: {.column width="20%"}
+Little variation in average by state
+
+Between 74 and 78 in average essay score across all states
+:::
+
+::: {.column width="80%"}
+![](sixth.jpeg)
+:::
+
+::::
+
+## Volunteer Levels by State
+
+:::: {.columns}
+
+::: {.column width="20%"}
+Significant variation by state
+
+High volunteer levels did not correspond with admission
+:::
+
+::: {.column width="80%"}
+![](eighth.jpeg)
+:::
+
+::::
+
+## Conclusion
+
+- Our admissions process places a high value on test score and GPA, considering academic in performance in high school as a major factor
+- Essay score, work experience, and volunteer level were not considered as important
+- While we should take pride in our rigorous academic standards, we must ensure that we are not over reliant on test scores, as they are not good measures of qualities like leadership, tenacity, or kindness
+
+## Thank you!
+
+![](Thats-All-Folks.png)
+
